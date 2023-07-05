@@ -1,36 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:track_users/domain/use_cases/get_user_details_use_case.dart';
-import 'presentation/blocks/user_bloc.dart';
-import 'data/repositories/user_repository.dart';
-import 'data/services/user_service.dart';
-import 'presentation/pages/user_list_screen.dart';
+import 'package:track_users/features/home/bloc/home_bloc.dart';
+import 'package:track_users/features/user_details/ui/user_details_screen.dart';
+
+import 'features/user_details/bloc/user_details_block_bloc.dart';
+import 'features/home/ui/user_list_screen.dart';
 
 void main() {
-  final UserService userService = UserService();
-  final UserRepository userRepository =
-      UserRepository(userService: userService);
-  final UserBloc userBloc = UserBloc(
-      getUsersUseCase: GetUsersUseCase(userRepository: userRepository));
-
-  runApp(MyApp(userBloc: userBloc));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final UserBloc userBloc;
-
-  const MyApp({super.key, required this.userBloc});
+  const MyApp({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'User App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: BlocProvider<UserBloc>.value(
-        value: userBloc,
-        child: const UserListScreen(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => HomeBloc()),
+        BlocProvider(create: (_) => UserDetailsBlockBloc()),
+      ],
+      child: MaterialApp(
+        title: 'User App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        routes: {
+          "/": (context) => const UserListScreen(),
+          "/userDetails": (context) => const UserDetailsScreen(),
+        },
+        initialRoute: "/",
       ),
     );
   }

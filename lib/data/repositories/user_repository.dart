@@ -12,7 +12,8 @@ class UserRepository {
   }
 
   Future<UserModel> getUserDetails(int userId) async {
-    final Map<String, dynamic> userJson = await userService.getUserDetails(userId);
+    final Map<String, dynamic> userJson =
+        await userService.getUserDetails(userId);
     return UserModel.fromJson(userJson);
   }
 }

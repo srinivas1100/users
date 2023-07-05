@@ -1,7 +1,6 @@
+import 'package:track_users/data/models/user_details_model.dart';
 import 'package:track_users/data/models/user_model.dart';
 import 'package:track_users/data/services/user_service.dart';
-
-
 
 class UserRepository {
   final UserService userService;
@@ -13,8 +12,10 @@ class UserRepository {
     return userList.map((userJson) => UserModel.fromJson(userJson)).toList();
   }
 
-  Future<UserModel> getUserDetails(int userId) async {
-    final Map<String, dynamic> userJson = await userService.getUserDetails(userId);
-    return UserModel.fromJson(userJson);
+  Future<UsersDetails> getUserDetails(int userId) async {
+    final Map<String, dynamic> userJson =
+        await userService.getUserDetails(userId);
+    print(userJson);
+    return UsersDetails.fromJson(userJson);
   }
 }
