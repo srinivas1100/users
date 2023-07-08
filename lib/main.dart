@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("test");
+    print("test");
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => HomeBloc()),
